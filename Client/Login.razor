@@ -1,0 +1,60 @@
+﻿@page "/login"
+@using System.Net
+@using Microsoft.AspNetCore.Components.Authorization
+@using QueChulosPerros.Client.Authentication;
+@using QueChulosPerros.Shared.Model;
+@inject HttpClient httpClient
+@inject IJSRuntime js
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
+
+
+<div class="container">
+    <center>
+        <div class="card">
+            <a class="login">Log in</a>
+            <EditForm Model="loginRequest" OnValidSubmit="Authenticate">
+                <DataAnnotationsValidator />
+                <div class="inputBox">
+                    <input @bind="loginRequest.UserName" type="text" required="required">
+                    <span class="user">Username</span>
+                    <ValidationMessage For="@(() => loginRequest.UserName)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="loginRequest.Branch" type="text" required="required">
+                    <span>Branch</span>
+                    <ValidationMessage For="@(() => loginRequest.Branch)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="loginRequest.Password" type="password" required="required">
+                    <span>Password</span>
+                    <ValidationMessage For="@(() => loginRequest.Password)" />
+                </div>
+                <button type="submit" @onclick="Authenticate" class="enter">Enter</button>
+            </EditForm>
+        </div>
+    </center>
+</div>
+@code {
+    private LoginRequest loginRequest = new LoginRequest();
+
+    private async Task Authenticate()
+    {
+        var loginResponse = await httpClient.PostAsJsonAsync<LoginRequest>("/api/Account/Login", loginRequest);
+
+        if (loginResponse.IsSuccessStatusCode)
+        {
+            var userSession = await loginResponse.Content.ReadFromJsonAsync<UserSession>();
+            var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+            await customAuthStateProvider.UpdateAuthenticationState(userSession);
+            navManager.NavigateTo("/", true);
+        }
+        else if (loginResponse.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
+            return;
+        }
+    }
+
+
+}

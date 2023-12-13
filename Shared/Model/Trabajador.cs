@@ -5,7 +5,8 @@ namespace QueChulosPerros.Shared.Model
     public enum Branch
     {
         Villa_de_Álvarez,
-        Tecomán
+        Tecomán,
+        Ambos
     }
     public class Trabajador
     {
