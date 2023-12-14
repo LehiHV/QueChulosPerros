@@ -16,17 +16,22 @@
             <EditForm Model="loginRequest" OnValidSubmit="Authenticate">
                 <DataAnnotationsValidator />
                 <div class="inputBox">
-                    <input @bind="loginRequest.Branch" type="text" required="required">
+                    <select @bind="loginRequest.Branch" required class="styledSelect">
+                        <option value=""></option>
+                        <option value="Villa_de_Álvarez">Villa de Álvarez</option>
+                        <option value="Tecomán">Tecoman</option>
+                        <option value="Ambos">Ambos</option>
+                    </select>
                     <span>Dependencia</span>
                     <ValidationMessage For="@(() => loginRequest.Branch)" />
                 </div>
                 <div class="inputBox">
-                    <input @bind="loginRequest.UserName" type="text" required="required">
+                    <input @bind="loginRequest.UserName" type="text" required>
                     <span class="user">Nombre de usuario</span>
                     <ValidationMessage For="@(() => loginRequest.UserName)" />
                 </div>
                 <div class="inputBox">
-                    <input @bind="loginRequest.Password" type="password" required="required">
+                    <input @bind="loginRequest.Password" type="password" required>
                     <span>Contraseña</span>
                     <ValidationMessage For="@(() => loginRequest.Password)" />
                 </div>
@@ -55,6 +60,4 @@
             return;
         }
     }
-
-
 }
