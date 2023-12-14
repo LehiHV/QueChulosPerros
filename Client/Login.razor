@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@page "/"
 @using System.Net
 @using Microsoft.AspNetCore.Components.Authorization
 @using QueChulosPerros.Client.Authentication;
@@ -12,22 +12,22 @@
 <div class="container">
     <center>
         <div class="card">
-            <a class="login">Log in</a>
+            <a class="login">Inicio de sesión</a>
             <EditForm Model="loginRequest" OnValidSubmit="Authenticate">
                 <DataAnnotationsValidator />
                 <div class="inputBox">
-                    <input @bind="loginRequest.UserName" type="text" required="required">
-                    <span class="user">Username</span>
-                    <ValidationMessage For="@(() => loginRequest.UserName)" />
-                </div>
-                <div class="inputBox">
                     <input @bind="loginRequest.Branch" type="text" required="required">
-                    <span>Branch</span>
+                    <span>Dependencia</span>
                     <ValidationMessage For="@(() => loginRequest.Branch)" />
                 </div>
                 <div class="inputBox">
+                    <input @bind="loginRequest.UserName" type="text" required="required">
+                    <span class="user">Nombre de usuario</span>
+                    <ValidationMessage For="@(() => loginRequest.UserName)" />
+                </div>
+                <div class="inputBox">
                     <input @bind="loginRequest.Password" type="password" required="required">
-                    <span>Password</span>
+                    <span>Contraseña</span>
                     <ValidationMessage For="@(() => loginRequest.Password)" />
                 </div>
                 <button type="submit" @onclick="Authenticate" class="enter">Enter</button>

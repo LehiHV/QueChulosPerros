@@ -1,0 +1,31 @@
+﻿#display-date {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 15px 0;
+    font-size: 13px;
+}
+
+.control-wrapper {
+    width: 300px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.e-calendar .e-content .e-cell.personal-appointment span.e-day,
+.e-calendar .e-content td:hover.e-cell.personal-appointment span.e-day,
+.e-calendar .e-content td.e-selected.e-focused-date.e-cell.personal-appointment span.e-day {
+    color: #28a745;
+    font-weight: 800;
+}
+
+.e-calendar .e-content .e-cell.official-appointment span.e-day,
+.e-calendar .e-content td:hover.e-cell.official-appointment span.e-day,
+.e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
+    color: #dc3545;
+    font-weight: 800;
+}
+
+.e-calendar .e-content td.e-selected.e-focused-date.e-cell.personal-appointment span.e-day,
+.e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
+    background-color: #b511485e;
+}
