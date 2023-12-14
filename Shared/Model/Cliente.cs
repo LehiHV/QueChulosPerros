@@ -3,12 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QueChulosPerros.Shared.Model
 {
-    public enum Gender
-    {
-        Hombre,
-        Mujer,
-        NoEspecificado
-    }
+    
 
     public class Cliente
     {

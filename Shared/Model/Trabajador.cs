@@ -8,6 +8,12 @@ namespace QueChulosPerros.Shared.Model
         Tecomán,
         Ambos
     }
+    public enum Gender
+    {
+        Masculino,
+        Femenino,
+        Otro
+    }
     public class Trabajador
     {
         public int Id { get; set; }
@@ -18,6 +24,8 @@ namespace QueChulosPerros.Shared.Model
         public Gender? Gender { get; set; }
         [Required(ErrorMessage = "El correo electrónico es obligatorio"), EmailAddress]
         public string? Email { get; set; }
+        [Required]
+        public string Password { get; set; }
         [Required]
         public bool? Admin {  get; set; }
         [Required]

@@ -1,4 +1,8 @@
 ﻿using QueChulosPerros.Shared.Model;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace QueChulosPerros.Server.Authentication
 {
@@ -6,20 +10,17 @@ namespace QueChulosPerros.Server.Authentication
     {
         private List<UserAccount> _userAccountList;
 
-        public UserAccountService()
+        public async Task InitializeUserAccountsAsync()
         {
-            _userAccountList = new List<UserAccount>
-        {
-            new UserAccount{ UserName = "admin", Password = "admin", Role = "Administrator", Branch = Branch.Ambos },
-            new UserAccount{ UserName = "worker1", Password = "worker1", Role = "Trabajador", Branch = Branch.Tecomán },
-            new UserAccount{ UserName = "worker2", Password = "worker2", Role = "Trabajador", Branch = Branch.Villa_de_Álvarez }
-
-        };
+            using (HttpClient http = new HttpClient())
+            {
+                _userAccountList = await http.GetFromJsonAsync<List<UserAccount>>("api/Trabajadors");
+            }
         }
 
         public UserAccount? GetUserAccountByUserName(string userName)
         {
-            return _userAccountList.FirstOrDefault(x => x.UserName == userName);
-        }        
+            return _userAccountList?.FirstOrDefault(x => x.UserName == userName);
+        }
     }
 }
