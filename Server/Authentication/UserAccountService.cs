@@ -1,26 +1,25 @@
-﻿using QueChulosPerros.Shared.Model;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using QueChulosPerros.Server.Authentication;
+using QueChulosPerros.Shared.Model;
 
-namespace QueChulosPerros.Server.Authentication
+public class UserAccountService
 {
-    public class UserAccountService
+    private List<UserAccount> _userAccountList;
+    private List<Trabajador> trabajadorList;
+    HttpClient http = new HttpClient();
+
+    public async Task InitializeUserAccountsAsync()
     {
-        private List<UserAccount> _userAccountList;
+        trabajadorList = await http.GetFromJsonAsync<List<Trabajador>>("https://localhost:7184/api/Trabajadors");
+        _userAccountList = trabajadorList.Select(t => new UserAccount { UserName = t.Name, Password = t.Password, Role = (bool)t.Admin ? "Administrador" : "Trabajador", Branch = t.Branch }).ToList();
+    }
 
-        public async Task InitializeUserAccountsAsync()
+    public async Task<UserAccount?> GetUserAccountByUserName(string userName)
+    {
+        if (_userAccountList == null)
         {
-            using (HttpClient http = new HttpClient())
-            {
-                _userAccountList = await http.GetFromJsonAsync<List<UserAccount>>("api/Trabajadors");
-            }
+            await InitializeUserAccountsAsync();
         }
 
-        public UserAccount? GetUserAccountByUserName(string userName)
-        {
-            return _userAccountList?.FirstOrDefault(x => x.UserName == userName);
-        }
+        return _userAccountList?.FirstOrDefault(x => x.UserName == userName);
     }
 }

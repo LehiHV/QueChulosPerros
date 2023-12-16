@@ -25,7 +25,7 @@ namespace QueChulosPerros.Shared.Model
         [Required(ErrorMessage = "El correo electrónico es obligatorio"), EmailAddress]
         public string? Email { get; set; }
         [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
         [Required]
         public bool? Admin {  get; set; }
         [Required]

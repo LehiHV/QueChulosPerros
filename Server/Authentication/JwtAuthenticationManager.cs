@@ -19,14 +19,16 @@ namespace QueChulosPerros.Server.Authentication
             _userAccountService = userAccountService;
         }
 
-        public UserSession? GenerateJwtToken(string userName, string password)
+        public UserSession? GenerateJwtToken(string userName, string password, Branch branch)
         {
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
                 return null;
 
             /* Validating the User Credentials */
-            var userAccount = _userAccountService.GetUserAccountByUserName(userName);
-            if (userAccount == null || userAccount.Password != password)
+            var userAccountTask = _userAccountService.GetUserAccountByUserName(userName);
+            userAccountTask.Wait();
+            var userAccount = userAccountTask.Result;
+            if (userAccount == null || userAccount.Password != password || userAccount.Branch != branch)
                 return null;
 
             /* Generating JWT Token */

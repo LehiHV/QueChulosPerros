@@ -50,6 +50,21 @@ namespace QueChulosPerros.Server.Controllers
             return trabajador;
         }
 
+        // GET: api/Trabajadors/AdminDetails
+        [HttpGet("AdminDetails")]
+        public async Task<ActionResult<IEnumerable<object>>> GetAdminDetails()
+        {
+            if (_context.Trabajadores == null)
+            {
+                return NotFound();
+            }
+            return await _context.Trabajadores
+                .Select(t => new { t.Name, t.Password, Role = (bool)t.Admin ? "Administrador" : "Trabajador", t.Branch })
+                .ToListAsync();
+        }
+
+
+
         // PUT: api/Trabajadors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

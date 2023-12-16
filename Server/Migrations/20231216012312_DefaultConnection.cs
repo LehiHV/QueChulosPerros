@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QueChulosPerros.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Initiation : Migration
+    public partial class DefaultConnection : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,6 +38,7 @@ namespace QueChulosPerros.Server.Migrations
                     Phone = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Admin = table.Column<bool>(type: "bit", nullable: false),
                     Branch = table.Column<int>(type: "int", nullable: false)
                 },

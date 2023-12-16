@@ -12,8 +12,8 @@ using QueChulosPerros.Server.Data;
 namespace QueChulosPerros.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231214031835_Initial")]
-    partial class Initial
+    [Migration("20231216012312_DefaultConnection")]
+    partial class DefaultConnection
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

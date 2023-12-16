@@ -22,7 +22,7 @@ namespace Psicología.Server.Controllers
         public ActionResult<UserSession> Login([FromBody] LoginRequest loginRequest)
         {
             var jwtAuthenticationManager = new JwtAuthenticationManager(_userAccountService);
-            var userSession = jwtAuthenticationManager.GenerateJwtToken(loginRequest.UserName!, loginRequest.Password!);
+            var userSession = jwtAuthenticationManager.GenerateJwtToken(loginRequest.UserName!, loginRequest.Password!, loginRequest.Branch.Value!);
             if (userSession is null)
                 return Unauthorized();
             else
