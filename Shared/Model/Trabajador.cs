@@ -27,7 +27,7 @@ namespace QueChulosPerros.Shared.Model
         [Required]
         public string? Password { get; set; }
         [Required]
-        public bool? Admin {  get; set; }
+        public bool Admin {  get; set; }
         [Required]
         public Branch? Branch { get; set; }
     }

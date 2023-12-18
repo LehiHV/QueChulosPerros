@@ -14,6 +14,7 @@
     <div class="mb-3">
         <label for="txtTelefono" class="form-label">Telefono</label>
         <InputText id="txtTelefono" class="form-control" @bind-Value="traba.Phone" />
+        <ValidationMessage For="@(() => traba.Phone)" />
     </div>
     <div class="mb-3">
         <label for="selectGenero" class="form-label">Genero</label>
@@ -24,18 +25,22 @@
                 <option value="@gender">@gender</option>
             }
         </InputSelect>
+        <ValidationMessage For="@(() => traba.Gender)" />
     </div>
     <div class="mb-3">
         <label for="txtCorreo" class="form-label">Correo</label>
         <InputText id="txtCorreo" class="form-control" @bind-Value="traba.Email" />
+        <ValidationMessage For="@(() => traba.Email)" />
     </div>
     <div class="mb-3">
         <label for="txtPassword" class="form-label">Contraseña</label>
         <InputText id="txtPassword" class="form-control" @bind-Value="traba.Password" />
+        <ValidationMessage For="@(() => traba.Password)" />
     </div>
     <div class="mb-3">
         <label for="checkAdmin" class="form-label">Administrador</label>
         <InputCheckbox id="checkAdmin" class="form-check-input" @bind-Value="traba.Admin" />
+        <ValidationMessage For="@(() => traba.Admin)" />
     </div>
     <div class="mb-3">
         <label for="selectBranch" class="form-label">Sucursal</label>
@@ -46,16 +51,22 @@
                 <option value="@branch">@branch</option>
             }
         </InputSelect>
+        <ValidationMessage For="@(() => traba.Branch)" />
     </div>
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <button type="sumbit" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
 </EditForm>
-
 
 @code {
     private Trabajador traba = new Trabajador();
+
     private async void Guardar()
     {
         await http.PostAsJsonAsync("api/Trabajadors", traba);
+        navegar.NavigateTo("/trabajadores");
+    }
+    private void Cancelar()
+    {
         navegar.NavigateTo("/trabajadores");
     }
 }

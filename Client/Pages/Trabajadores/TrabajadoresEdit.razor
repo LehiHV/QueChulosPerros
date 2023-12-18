@@ -1,5 +1,81 @@
-﻿<h3>TrabajadoresEdit</h3>
+﻿@page "/trabajador/editar/{Id:int}";
+@using QueChulosPerros.Shared.Model;
+@inject HttpClient http
+@inject NavigationManager navegar
+
+<h3>Editar Trabajador</h3>
+
+<EditForm Model="traba" OnValidSubmit="Editar">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="txtNombre" class="form-label">Nombre</label>
+        <InputText id="txtNombre" class="form-control" @bind-Value="traba.Name" />
+    </div>
+    <div class="mb-3">
+        <label for="txtTelefono" class="form-label">Telefono</label>
+        <InputText id="txtTelefono" class="form-control" @bind-Value="traba.Phone" />
+        <ValidationMessage For="@(() => traba.Phone)" />
+    </div>
+    <div class="mb-3">
+        <label for="selectGenero" class="form-label">Genero</label>
+        <InputSelect id="selectGenero" class="form-control" @bind-Value="traba.Gender">
+            <option value="">-- Seleccione --</option>
+            @foreach (var gender in Enum.GetValues<Gender>())
+            {
+                <option value="@gender">@gender</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => traba.Gender)" />
+    </div>
+    <div class="mb-3">
+        <label for="txtCorreo" class="form-label">Correo</label>
+        <InputText id="txtCorreo" class="form-control" @bind-Value="traba.Email" />
+        <ValidationMessage For="@(() => traba.Email)" />
+    </div>
+    <div class="mb-3">
+        <label for="txtPassword" class="form-label">Contraseña</label>
+        <InputText id="txtPassword" class="form-control" @bind-Value="traba.Password" />
+        <ValidationMessage For="@(() => traba.Password)" />
+    </div>
+    <div class="mb-3">
+        <label for="checkAdmin" class="form-label">Administrador</label>
+        <InputCheckbox id="checkAdmin" class="form-check-input" @bind-Value="traba.Admin" />
+        <ValidationMessage For="@(() => traba.Admin)" />
+    </div>
+    <div class="mb-3">
+        <label for="selectBranch" class="form-label">Sucursal</label>
+        <InputSelect id="selectBranch" class="form-control" @bind-Value="traba.Branch">
+            <option value="">-- Seleccione --</option>
+            @foreach (var branch in Enum.GetValues<Branch>())
+            {
+                <option value="@branch">@branch</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => traba.Branch)" />
+    </div>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <button type="sumbit" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
+</EditForm>
+
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+    private Trabajador traba = new Trabajador();
 
+    protected override async Task OnInitializedAsync()
+    {
+        traba = await http.GetFromJsonAsync<Trabajador>($"api/Trabajadors/{Id}");
+    }
+
+    private async void Editar()
+    {
+        await http.PutAsJsonAsync($"api/Trabajadors/{Id}", traba);
+        navegar.NavigateTo("/trabajadores");
+    }
+
+    private void Cancelar()
+    {
+        navegar.NavigateTo("/trabajadores");
+    }
 }
