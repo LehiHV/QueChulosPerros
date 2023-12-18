@@ -5,7 +5,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 bg-dark">
+        <div class="col-md-3 bg-dark h-100">
             <div class="top-row ps-3 navbar navbar-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/citas">Que Chulos Perros</a>
@@ -38,51 +38,53 @@
             </div>
         </div>
 
-        <div class="col-md-9 d-flex flex-column align-items-center justify-content-center">
+        <div class="col-md-9 d-flex flex-column align-items-center justify-content-center h-100">
             <div class="container-fluid">
                 <button class="btn btn-success mt-3 mb-3 w-100" @onclick="AgregarTrabajador">Agregar Trabajador</button>
             </div>
             <div>
                 @if (Trabajadores == null)
                 {
-                    <h3>Cargando...</h3>
+                    <h3 class="text-primary">Cargando...</h3>
                 }
                 else if (Trabajadores.Count == 0)
                 {
-                    <h3>No hay Trabajadores</h3>
+                    <h3 class="text-warning">No hay Trabajadores</h3>
                 }
                 else
                 {
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Nombre</th>
-                                <th>Telefono</th>
-                                <th>Genero</th>
-                                <th>Correo</th>
-                                <th>Actualizar</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var t in Trabajadores)
-                            {
-                                <tr>
-                                    <td>@t.Id</td>
-                                    <td>@t.Name</td>
-                                    <td>@t.Phone</td>
-                                    <td>@t.Gender</td>
-                                    <td>@t.Email</td>
-                                    <td><button class="btn btn-primary" @onclick="(()=>Editar(Convert.ToInt32(t.Id)))"><span class="oi oi-list">Actualizar Trabajador</span></button></td>
-                                    <td><button class="btn btn-danger" @onclick="(()=>Eliminar(t))"><span class="oi oi-trash">Eliminar Trabajador</span></button></td>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-primary text-white">
+                                <tr class="w-100">
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Telefono</th>
+                                    <th>Genero</th>
+                                    <th>Correo</th>
+                                    <th>Actualizar</th>
+                                    <th>Eliminar</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var t in Trabajadores)
+                                {
+                                    <tr>
+                                        <td>@t.Id</td>
+                                        <td>@t.Name</td>
+                                        <td>@t.Phone</td>
+                                        <td>@t.Gender</td>
+                                        <td>@t.Email</td>
+                                        <td><button class="btn btn-outline-success" @onclick="(()=>Editar(Convert.ToInt32(t.Id)))"><span class="oi oi-list"> Actualizar Trabajador</span></button></td>
+                                        <td><button class="btn btn-outline-danger" @onclick="(()=>Eliminar(t))"><span class="oi oi-trash"> Eliminar Trabajador</span></button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 }
             </div>
+
         </div>
     </div>
 </div>

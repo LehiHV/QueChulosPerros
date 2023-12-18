@@ -1,0 +1,61 @@
+﻿@page "/trabajador/nuevo"
+@using QueChulosPerros.Shared.Model
+@inject HttpClient http
+@inject NavigationManager navegar
+
+<h3>Nuevo Trabajador</h3>
+
+<EditForm Model="traba" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="txtNombre" class="form-label">Nombre</label>
+        <InputText id="txtNombre" class="form-control" @bind-Value="traba.Name" />
+    </div>
+    <div class="mb-3">
+        <label for="txtTelefono" class="form-label">Telefono</label>
+        <InputText id="txtTelefono" class="form-control" @bind-Value="traba.Phone" />
+    </div>
+    <div class="mb-3">
+        <label for="selectGenero" class="form-label">Genero</label>
+        <InputSelect id="selectGenero" class="form-control" @bind-Value="traba.Gender">
+            <option value="">-- Seleccione --</option>
+            @foreach (var gender in Enum.GetValues<Gender>())
+            {
+                <option value="@gender">@gender</option>
+            }
+        </InputSelect>
+    </div>
+    <div class="mb-3">
+        <label for="txtCorreo" class="form-label">Correo</label>
+        <InputText id="txtCorreo" class="form-control" @bind-Value="traba.Email" />
+    </div>
+    <div class="mb-3">
+        <label for="txtPassword" class="form-label">Contraseña</label>
+        <InputText id="txtPassword" class="form-control" @bind-Value="traba.Password" />
+    </div>
+    <div class="mb-3">
+        <label for="checkAdmin" class="form-label">Administrador</label>
+        <InputCheckbox id="checkAdmin" class="form-check-input" @bind-Value="traba.Admin" />
+    </div>
+    <div class="mb-3">
+        <label for="selectBranch" class="form-label">Sucursal</label>
+        <InputSelect id="selectBranch" class="form-control" @bind-Value="traba.Branch">
+            <option value="">-- Seleccione --</option>
+            @foreach (var branch in Enum.GetValues<Branch>())
+            {
+                <option value="@branch">@branch</option>
+            }
+        </InputSelect>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</EditForm>
+
+
+@code {
+    private Trabajador traba = new Trabajador();
+    private async void Guardar()
+    {
+        await http.PostAsJsonAsync("api/Trabajadors", traba);
+        navegar.NavigateTo("/trabajadores");
+    }
+}
