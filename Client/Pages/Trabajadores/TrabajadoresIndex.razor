@@ -1,0 +1,110 @@
+﻿@page "/trabajadores"
+@using QueChulosPerros.Shared.Model
+@inject HttpClient http
+@inject NavigationManager navegar
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 bg-dark">
+            <div class="top-row ps-3 navbar navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/citas">Que Chulos Perros</a>
+                </div>
+            </div>
+
+            <div class="nav-scrollable">
+                <nav class="flex-column">
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="citas" Match="NavLinkMatch.All">
+                            <span class="oi oi-calendar" aria-hidden="true"></span> Citas
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="trabajadores">
+                            <span class="oi oi-people" aria-hidden="true"></span> Trabajadores
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="clientes">
+                            <span class="oi oi-people" aria-hidden="true"></span> Clientes
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="mascotas">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Mascotas
+                        </NavLink>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="col-md-9 d-flex flex-column align-items-center justify-content-center">
+            <div class="container-fluid">
+                <button class="btn btn-success mt-3 mb-3 w-100" @onclick="AgregarTrabajador">Agregar Trabajador</button>
+            </div>
+            <div>
+                @if (Trabajadores == null)
+                {
+                    <h3>Cargando...</h3>
+                }
+                else if (Trabajadores.Count == 0)
+                {
+                    <h3>No hay Trabajadores</h3>
+                }
+                else
+                {
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Telefono</th>
+                                <th>Genero</th>
+                                <th>Correo</th>
+                                <th>Actualizar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in Trabajadores)
+                            {
+                                <tr>
+                                    <td>@t.Id</td>
+                                    <td>@t.Name</td>
+                                    <td>@t.Phone</td>
+                                    <td>@t.Gender</td>
+                                    <td>@t.Email</td>
+                                    <td><button class="btn btn-primary" @onclick="(()=>Editar(Convert.ToInt32(t.Id)))"><span class="oi oi-list">Actualizar Trabajador</span></button></td>
+                                    <td><button class="btn btn-danger" @onclick="(()=>Eliminar(t))"><span class="oi oi-trash">Eliminar Trabajador</span></button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Trabajador> Trabajadores;
+    protected override async Task OnInitializedAsync()
+    {
+        Trabajadores = await http.GetFromJsonAsync<List<Trabajador>>("api/Trabajadors");
+    }
+    public async Task Eliminar(Trabajador trabajador)
+    {
+        await http.DeleteAsync($"api/Trabajadors/{trabajador.Id}");
+        Trabajadores.Remove(trabajador);
+    }
+
+    private void Editar(int Id)
+    {
+        navegar.NavigateTo($"/trabajador/editar/{Id}");
+    }
+    private void AgregarTrabajador()
+    {
+        navegar.NavigateTo($"/trabajador/nuevo");
+    }
+}
