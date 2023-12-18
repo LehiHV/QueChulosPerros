@@ -3,40 +3,8 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 bg-dark">
-            <div class="top-row ps-3 navbar navbar-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/citas">Que Chulos Perros</a>
-                </div>
-            </div>
 
-            <div class="nav-scrollable">
-                <nav class="flex-column">
-                    <div class="nav-item px-3">
-                        <NavLink class="nav-link" href="citas" Match="NavLinkMatch.All">
-                            <span class="oi oi-calendar" aria-hidden="true"></span> Citas
-                        </NavLink>
-                    </div>
-                    <div class="nav-item px-3">
-                        <NavLink class="nav-link" href="trabajadores">
-                            <span class="oi oi-people" aria-hidden="true"></span> Trabajadores
-                        </NavLink>
-                    </div>
-                    <div class="nav-item px-3">
-                        <NavLink class="nav-link" href="clientes">
-                            <span class="oi oi-people" aria-hidden="true"></span> Clientes
-                        </NavLink>
-                    </div>
-                    <div class="nav-item px-3">
-                        <NavLink class="nav-link" href="mascotas">
-                            <span class="oi oi-list-rich" aria-hidden="true"></span> Mascotas
-                        </NavLink>
-                    </div>
-                </nav>
-            </div>
-        </div>
-
-        <div class="col-md-9">
+        <div class="col-md-12">
             <!-- Contenido principal (calendario u otro contenido) -->
             <SfSchedule TValue="AppointmentData" @bind-SelectedDate="@CurrentDate">
                 <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
