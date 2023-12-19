@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QueChulosPerros.Shared.Model
 {
-    
+
 
     public class Cliente
     {

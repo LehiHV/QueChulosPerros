@@ -23,186 +23,187 @@ namespace QueChulosPerros.Server.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("QueChulosPerros.Shared.Model.Cita", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Appointment")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
+                b.Property<int?>("ClientId")
+                    .IsRequired()
+                    .HasColumnType("int");
 
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
+                b.Property<DateTime>("EndTime")
+                    .HasColumnType("datetime2");
 
-                    b.Property<int?>("IdClient")
-                        .IsRequired()
-                        .HasColumnType("int");
+                b.Property<int?>("PetId")
+                    .IsRequired()
+                    .HasColumnType("int");
 
-                    b.Property<int?>("IdPet")
-                        .IsRequired()
-                        .HasColumnType("int");
+                b.Property<DateTime>("StartTime")
+                    .HasColumnType("datetime2");
 
-                    b.Property<int?>("PetId")
-                        .HasColumnType("int");
+                b.Property<string>("Subject")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
+                b.HasIndex("ClientId");
 
-                    b.HasIndex("PetId");
+                b.HasIndex("PetId");
 
-                    b.ToTable("Citas");
-                });
+                b.ToTable("Citas");
+            });
 
             modelBuilder.Entity("QueChulosPerros.Shared.Model.Cliente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Branch")
-                        .HasColumnType("int");
+                b.Property<int>("Branch")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
+                b.Property<int>("Gender")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                b.Property<string>("Phone")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Clientes");
-                });
+                b.ToTable("Clientes");
+            });
 
             modelBuilder.Entity("QueChulosPerros.Shared.Model.Mascota", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("Alive")
-                        .IsRequired()
-                        .HasColumnType("bit");
+                b.Property<bool?>("Alive")
+                    .IsRequired()
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Breed")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Breed")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
+                b.Property<int?>("ClientId")
+                    .IsRequired()
+                    .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
+                b.Property<int>("Gender")
+                    .HasColumnType("int");
 
-                    b.Property<int?>("IdClient")
-                        .IsRequired()
-                        .HasColumnType("int");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Phone")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                b.Property<int>("Specie")
+                    .HasColumnType("int");
 
-                    b.Property<int>("Specie")
-                        .HasColumnType("int");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
+                b.HasIndex("ClientId");
 
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("Mascotas");
-                });
+                b.ToTable("Mascotas");
+            });
 
             modelBuilder.Entity("QueChulosPerros.Shared.Model.Trabajador", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("Admin")
-                        .IsRequired()
-                        .HasColumnType("bit");
+                b.Property<bool>("Admin")
+                    .HasColumnType("bit");
 
-                    b.Property<int>("Branch")
-                        .HasColumnType("int");
+                b.Property<int>("Branch")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
+                b.Property<int>("Gender")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Password")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                b.Property<string>("Phone")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Trabajadores");
-                });
+                b.ToTable("Trabajadores");
+            });
 
             modelBuilder.Entity("QueChulosPerros.Shared.Model.Cita", b =>
-                {
-                    b.HasOne("QueChulosPerros.Shared.Model.Cliente", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
+            {
+                b.HasOne("QueChulosPerros.Shared.Model.Cliente", "Client")
+                    .WithMany()
+                    .HasForeignKey("ClientId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("QueChulosPerros.Shared.Model.Mascota", "Pet")
-                        .WithMany()
-                        .HasForeignKey("PetId");
+                b.HasOne("QueChulosPerros.Shared.Model.Mascota", "Pet")
+                    .WithMany()
+                    .HasForeignKey("PetId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Client");
+                b.Navigation("Client");
 
-                    b.Navigation("Pet");
-                });
+                b.Navigation("Pet");
+            });
 
             modelBuilder.Entity("QueChulosPerros.Shared.Model.Mascota", b =>
-                {
-                    b.HasOne("QueChulosPerros.Shared.Model.Cliente", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
+            {
+                b.HasOne("QueChulosPerros.Shared.Model.Cliente", "Client")
+                    .WithMany()
+                    .HasForeignKey("ClientId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Client");
-                });
+                b.Navigation("Client");
+            });
 #pragma warning restore 612, 618
         }
     }

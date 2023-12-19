@@ -25,22 +25,22 @@ namespace QueChulosPerros.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cita>>> GetCitas()
         {
-          if (_context.Citas == null)
-          {
-              return NotFound();
-          }
-            return await _context.Citas.ToListAsync();
+            if (_context.Citas == null)
+            {
+                return NotFound();
+            }
+            return await _context.Citas.Include(c => c.Client).Include(c => c.Pet).ToListAsync();
         }
 
         // GET: api/Citas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Cita>> GetCita(int id)
         {
-          if (_context.Citas == null)
-          {
-              return NotFound();
-          }
-            var cita = await _context.Citas.FindAsync(id);
+            if (_context.Citas == null)
+            {
+                return NotFound();
+            }
+            var cita = await _context.Citas.Include(c => c.Client).Include(c => c.Pet).FirstOrDefaultAsync(c => c.Id == id);
 
             if (cita == null)
             {
@@ -49,6 +49,7 @@ namespace QueChulosPerros.Server.Controllers
 
             return cita;
         }
+
 
         // PUT: api/Citas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -86,10 +87,10 @@ namespace QueChulosPerros.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Cita>> PostCita(Cita cita)
         {
-          if (_context.Citas == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.Citas'  is null.");
-          }
+            if (_context.Citas == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Citas'  is null.");
+            }
             _context.Citas.Add(cita);
             await _context.SaveChangesAsync();
 

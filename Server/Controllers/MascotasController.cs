@@ -25,22 +25,22 @@ namespace QueChulosPerros.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Mascota>>> GetMascotas()
         {
-          if (_context.Mascotas == null)
-          {
-              return NotFound();
-          }
-            return await _context.Mascotas.ToListAsync();
+            if (_context.Mascotas == null)
+            {
+                return NotFound();
+            }
+            return await _context.Mascotas.Include(m => m.Client).ToListAsync();
         }
 
         // GET: api/Mascotas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Mascota>> GetMascota(int id)
         {
-          if (_context.Mascotas == null)
-          {
-              return NotFound();
-          }
-            var mascota = await _context.Mascotas.FindAsync(id);
+            if (_context.Mascotas == null)
+            {
+                return NotFound();
+            }
+            var mascota = await _context.Mascotas.Include(m => m.Client).FirstOrDefaultAsync(m => m.Id == id);
 
             if (mascota == null)
             {
@@ -86,10 +86,10 @@ namespace QueChulosPerros.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Mascota>> PostMascota(Mascota mascota)
         {
-          if (_context.Mascotas == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.Mascotas'  is null.");
-          }
+            if (_context.Mascotas == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Mascotas'  is null.");
+            }
             _context.Mascotas.Add(mascota);
             await _context.SaveChangesAsync();
 

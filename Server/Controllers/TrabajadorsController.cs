@@ -25,10 +25,10 @@ namespace QueChulosPerros.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Trabajador>>> GetTrabajadores()
         {
-          if (_context.Trabajadores == null)
-          {
-              return NotFound();
-          }
+            if (_context.Trabajadores == null)
+            {
+                return NotFound();
+            }
             return await _context.Trabajadores.ToListAsync();
         }
 
@@ -36,10 +36,10 @@ namespace QueChulosPerros.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Trabajador>> GetTrabajador(int id)
         {
-          if (_context.Trabajadores == null)
-          {
-              return NotFound();
-          }
+            if (_context.Trabajadores == null)
+            {
+                return NotFound();
+            }
             var trabajador = await _context.Trabajadores.FindAsync(id);
 
             if (trabajador == null)
@@ -101,10 +101,10 @@ namespace QueChulosPerros.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Trabajador>> PostTrabajador(Trabajador trabajador)
         {
-          if (_context.Trabajadores == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.Trabajadores'  is null.");
-          }
+            if (_context.Trabajadores == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Trabajadores'  is null.");
+            }
             _context.Trabajadores.Add(trabajador);
             await _context.SaveChangesAsync();
 

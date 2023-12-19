@@ -61,8 +61,7 @@ namespace QueChulosPerros.Server.Migrations
                     Specie = table.Column<int>(type: "int", nullable: false),
                     Breed = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    IdClient = table.Column<int>(type: "int", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: true)
+                    ClientId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,7 +70,8 @@ namespace QueChulosPerros.Server.Migrations
                         name: "FK_Mascotas_Clientes_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clientes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,11 +80,11 @@ namespace QueChulosPerros.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Appointment = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdClient = table.Column<int>(type: "int", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: true),
-                    IdPet = table.Column<int>(type: "int", nullable: false),
-                    PetId = table.Column<int>(type: "int", nullable: true)
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    PetId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,12 +93,14 @@ namespace QueChulosPerros.Server.Migrations
                         name: "FK_Citas_Clientes_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clientes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Citas_Mascotas_PetId",
                         column: x => x.PetId,
                         principalTable: "Mascotas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(

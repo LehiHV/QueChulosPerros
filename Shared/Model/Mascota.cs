@@ -25,18 +25,18 @@ namespace QueChulosPerros.Shared.Model
         public string? Phone { get; set; }
         [Required]
         public bool? Alive { get; set; }
-        [Required(ErrorMessage = "El género es obligatorio"), EnumDataType(typeof(Gender))]
+        [Required(ErrorMessage = "El género es obligatorio"), EnumDataType(typeof(PetGender))]
         public PetGender? Gender { get; set; }
         [Required(ErrorMessage = "El correo electrónico es obligatorio"), EmailAddress]
         public string? Email { get; set; }
-        [Required] 
-        public Specie? Specie {get; set;}
+        [Required]
+        public Specie? Specie { get; set; }
         [Required]
         public string? Breed { get; set; }
         [Required(ErrorMessage = "La descripción es obligatoria"), MaxLength(255), Description, DataType(DataType.MultilineText)]
         public string? Description { get; set; }
         [ForeignKey("Cliente"), Required(ErrorMessage = "La identificación del cliente es obligatoria")]
-        public int? IdClient { get; set; }
+        public int? ClientId { get; set; }
         public Cliente? Client { get; set; }
     }
 }
