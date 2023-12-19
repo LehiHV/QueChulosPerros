@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QueChulosPerros.Server.Migrations
 {
-    /// <inheritdoc />
-    public partial class DefaultConnection : Migration
+    public partial class Initial : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -21,6 +19,8 @@ namespace QueChulosPerros.Server.Migrations
                     Phone = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Neighborhood = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Branch = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -119,7 +119,6 @@ namespace QueChulosPerros.Server.Migrations
                 column: "ClientId");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

@@ -15,6 +15,8 @@ namespace QueChulosPerros.Shared.Model
         public Gender? Gender { get; set; }
         [Required(ErrorMessage = "El correo electrónico es obligatorio"), EmailAddress]
         public string? Email { get; set; }
+        public string Neighborhood { get; set; }
+        public string Street { get; set; }
         [Required]
         public Branch? Branch { get; set; }
     }

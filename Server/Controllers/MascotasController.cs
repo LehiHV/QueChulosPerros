@@ -49,7 +49,24 @@ namespace QueChulosPerros.Server.Controllers
 
             return mascota;
         }
+        // GET: api/Mascotas/ByClienteId/5
+        [HttpGet("ByClienteId/{clienteId}")]
+        public async Task<ActionResult<IEnumerable<Mascota>>> GetMascotasByClienteId(int clienteId)
+        {
+            if (_context.Mascotas == null)
+            {
+                return NotFound();
+            }
 
+            var mascotas = await _context.Mascotas.Where(m => m.ClientId == clienteId).ToListAsync();
+
+            if (mascotas == null || mascotas.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return mascotas;
+        }
         // PUT: api/Mascotas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

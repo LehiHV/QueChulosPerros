@@ -30,6 +30,8 @@
                                     <th>Genero</th>
                                     <th>Correo</th>
                                     <th>Localidad</th>
+                                    <th>Calle</th>
+                                    <th>Colonia</th>
                                     <th>Actualizar</th>
                                     <th>Eliminar</th>
                                 </tr>
@@ -39,13 +41,45 @@
                                 {
                                     <tr>
                                         <td>@c.Id</td>
-                                        <td>@c.Name</td>
+                                        <td>
+                                            <button class="btn btn-link" @onclick="(() => MostrarMascotas(c.Id))">@c.Name</button>
+                                        </td>
                                         <td>@c.Phone</td>
                                         <td>@c.Gender</td>
                                         <td>@c.Email</td>
+                                        <td>@c.Street</td>
+                                        <td>@c.Neighborhood</td>
                                         <td>@c.Branch</td>
-                                        <td><button class="btn btn-outline-success" @onclick="(()=>Editar(Convert.ToInt32(c.Id)))"><span class="oi oi-list"> Actualizar Trabajador</span></button></td>
-                                        <td><button class="btn btn-outline-danger" @onclick="(()=>Eliminar(c))"><span class="oi oi-trash"> Eliminar Trabajador</span></button></td>
+                                        <td><button class="btn btn-outline-success" @onclick="(() => Editar(c.Id))"><span class="oi oi-list"> Actualizar Trabajador</span></button></td>
+                                        <td><button class="btn btn-outline-danger" @onclick="(() => Eliminar(c))"><span class="oi oi-trash"> Eliminar Trabajador</span></button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                @if (MascotasCliente != null)
+                {
+                    <div>
+                        <h4>Mascotas del Cliente Seleccionado:</h4>
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-info text-white">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Teléfono</th>
+                                    <!-- Agrega más columnas según tus necesidades -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var mascota in MascotasCliente)
+                                {
+                                    <tr>
+                                        <td>@mascota.Id</td>
+                                        <td>@mascota.Name</td>
+                                        <td>@mascota.Phone</td>
+                                        <!-- Agrega más celdas según tus necesidades -->
                                     </tr>
                                 }
                             </tbody>
@@ -53,17 +87,19 @@
                     </div>
                 }
             </div>
-
         </div>
     </div>
 </div>
 
 @code {
     private List<Cliente> Clientes;
+    private List<Mascota> MascotasCliente;
+
     protected override async Task OnInitializedAsync()
     {
         Clientes = await http.GetFromJsonAsync<List<Cliente>>("api/Clientes");
     }
+
     public async Task Eliminar(Cliente client)
     {
         await http.DeleteAsync($"api/Clientes/{client.Id}");
@@ -72,10 +108,17 @@
 
     private void Editar(int Id)
     {
-        //navegar.NavigateTo($"/cliente/editar/{Id}");
+        // Implementa la lógica para la edición si es necesario
     }
+
     private void AgregarTrabajador()
     {
-        //navegar.NavigateTo($"/cliente/nuevo");
+        // Implementa la lógica para agregar un cliente si es necesario
+    }
+
+    private async Task MostrarMascotas(int clienteId)
+    {
+        // Obtén las mascotas vinculadas al cliente seleccionado
+        MascotasCliente = await http.GetFromJsonAsync<List<Mascota>>($"api/Mascotas/ByClienteId/{clienteId}");
     }
 }

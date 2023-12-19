@@ -12,8 +12,8 @@ using QueChulosPerros.Server.Data;
 namespace QueChulosPerros.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231216012312_DefaultConnection")]
-    partial class DefaultConnection
+    [Migration("20231219023614_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,23 +33,22 @@ namespace QueChulosPerros.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Appointment")
+                    b.Property<int?>("ClientId")
                         .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdClient")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdPet")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<int?>("PetId")
+                        .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -81,10 +80,18 @@ namespace QueChulosPerros.Server.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -108,6 +115,7 @@ namespace QueChulosPerros.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ClientId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -120,10 +128,6 @@ namespace QueChulosPerros.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdClient")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -152,8 +156,7 @@ namespace QueChulosPerros.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("Admin")
-                        .IsRequired()
+                    b.Property<bool>("Admin")
                         .HasColumnType("bit");
 
                     b.Property<int>("Branch")
@@ -187,11 +190,15 @@ namespace QueChulosPerros.Server.Migrations
                 {
                     b.HasOne("QueChulosPerros.Shared.Model.Cliente", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("QueChulosPerros.Shared.Model.Mascota", "Pet")
                         .WithMany()
-                        .HasForeignKey("PetId");
+                        .HasForeignKey("PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 
@@ -202,7 +209,9 @@ namespace QueChulosPerros.Server.Migrations
                 {
                     b.HasOne("QueChulosPerros.Shared.Model.Cliente", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
