@@ -4,7 +4,7 @@
 @inject HttpClient http;
 
 <div class="container-fluid">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <!-- Contenido principal (calendario u otro contenido) -->
         <SfSchedule TValue="Cita" @bind-SelectedDate="@CurrentDate">
             <ScheduleEventSettings DataSource="@agendarCita"></ScheduleEventSettings>

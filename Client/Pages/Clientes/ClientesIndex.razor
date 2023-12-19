@@ -1,0 +1,81 @@
+﻿@page "/clientes"
+@using QueChulosPerros.Shared.Model
+@inject HttpClient http
+@inject NavigationManager navegar
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 d-flex flex-column align-items-center justify-content-center h-100">
+            <div class="container-fluid">
+                <button class="btn btn-success mt-3 mb-3 w-100" @onclick="AgregarTrabajador">Agregar Trabajador</button>
+            </div>
+            <div>
+                @if (Clientes == null)
+                {
+                    <h3 class="text-primary">Cargando...</h3>
+                }
+                else if (Clientes.Count == 0)
+                {
+                    <h3 class="text-warning">No hay Clientes</h3>
+                }
+                else
+                {
+                    <div class="table-responsive col-md-12">
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-primary text-white">
+                                <tr class="w-100">
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Telefono</th>
+                                    <th>Genero</th>
+                                    <th>Correo</th>
+                                    <th>Localidad</th>
+                                    <th>Actualizar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var c in Clientes)
+                                {
+                                    <tr>
+                                        <td>@c.Id</td>
+                                        <td>@c.Name</td>
+                                        <td>@c.Phone</td>
+                                        <td>@c.Gender</td>
+                                        <td>@c.Email</td>
+                                        <td>@c.Branch</td>
+                                        <td><button class="btn btn-outline-success" @onclick="(()=>Editar(Convert.ToInt32(c.Id)))"><span class="oi oi-list"> Actualizar Trabajador</span></button></td>
+                                        <td><button class="btn btn-outline-danger" @onclick="(()=>Eliminar(c))"><span class="oi oi-trash"> Eliminar Trabajador</span></button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Cliente> Clientes;
+    protected override async Task OnInitializedAsync()
+    {
+        Clientes = await http.GetFromJsonAsync<List<Cliente>>("api/Clientes");
+    }
+    public async Task Eliminar(Cliente client)
+    {
+        await http.DeleteAsync($"api/Clientes/{client.Id}");
+        Clientes.Remove(client);
+    }
+
+    private void Editar(int Id)
+    {
+        //navegar.NavigateTo($"/cliente/editar/{Id}");
+    }
+    private void AgregarTrabajador()
+    {
+        //navegar.NavigateTo($"/cliente/nuevo");
+    }
+}
