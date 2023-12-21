@@ -1,19 +1,57 @@
 ﻿@page "/citas"
 @using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Calendars
 @using QueChulosPerros.Shared.Model;
 @inject HttpClient http;
 
 <div class="container-fluid">
     <div class="col-md-12">
-        <!-- Contenido principal (calendario u otro contenido) -->
         <SfSchedule TValue="Cita" @bind-SelectedDate="@CurrentDate">
+            <ScheduleTemplates>
+                <EditorTemplate>
+                     <table class="custom-event-editor" width="100%" cellpadding="5">
+                <tbody>
+                    <tr>
+                        <td class="e-textlabel">Razón</td>
+                        <td colspan="4">
+                            <SfTextBox @bind-Value="@((context as Cita).Subject)"></SfTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="e-textlabel">Cliente</td>
+                        <td colspan="4">
+                            <SfDropDownList ID="ClientId" DataSource="@clientes" Placeholder="Escoge el cliente" @bind-Value="@((context as Cita).ClientId)">
+                                <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="e-textlabel">Desde</td>
+                        <td colspan="4">
+                            <SfDateTimePicker @bind-Value="@((context as Cita).StartTime)"></SfDateTimePicker>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="e-textlabel">Hasta</td>
+                        <td colspan="4">
+                            <SfDateTimePicker @bind-Value="@((context as Cita).EndTime)"></SfDateTimePicker>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="e-textlabel">Mascota</td>
+                        <td colspan="4">
+                                    <SfDropDownList ID="PetId" DataSource="@(mascotas.Where(m => m.ClientId == ((context as Cita).ClientId)).ToList())" Placeholder="Escoge la mascota" @bind-Value="@((context as Cita).PetId)">
+                                <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+                </EditorTemplate>
+            </ScheduleTemplates>
             <ScheduleEventSettings DataSource="@agendarCita"></ScheduleEventSettings>
-            <ScheduleField>
-                <FieldSubject Title="Nombre"></FieldSubject>
-                <FieldStartTime Title="Hora de llegada"></FieldStartTime>
-                <FieldEndTime Title="Hora de salida"></FieldEndTime>
-                    
-            </ScheduleField>
             <ScheduleViews>
                 <ScheduleView Option="View.Day" StartHour="8:00" EndHour="19:00"></ScheduleView>
                 <ScheduleView Option="View.Week" StartHour="8:00" EndHour="19:00"></ScheduleView>
@@ -27,11 +65,23 @@
 
 @code {
     DateTime CurrentDate = DateTime.Today;
-    List<Cita>? agendarCita;
+    private List<Cita>? agendarCita;
+    private List<Mascota>? mascotas;
+    private List<Cliente>? clientes;
+
+
+
+
 
     protected override async Task OnInitializedAsync()
     {
         agendarCita = await http!.GetFromJsonAsync<List<Cita>>("api/citas");
+        clientes = await http.GetFromJsonAsync<List<Cliente>>("api/Clientes");
+        mascotas = await http.GetFromJsonAsync<List<Mascota>>("api/Mascotas");
+    }
+    private async Task HandleValidSubmit()
+    {
+        await http!.PostAsJsonAsync("/api/citas", agendarCita);
     }
 }
 
