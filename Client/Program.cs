@@ -7,7 +7,7 @@ using QueChulosPerros.Client;
 using Syncfusion.Blazor; // Añade esta línea
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF1cWWhIfEx0RXxbf1xzZFJMY1tbR3NPIiBoS35RdURhWHxfeXdSRWVdWUJx");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF5cWWJCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdgWH1ccHZWR2lfU01zW0o=");
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
