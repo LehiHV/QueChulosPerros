@@ -29,3 +29,12 @@
 .e-calendar .e-content td.e-selected.e-focused-date.e-cell.official-appointment span.e-day {
     background-color: #b511485e;
 }
+
+#verify {
+    position: fixed;
+    padding: 0 20px;
+}
+
+#right-button {
+    padding: 0 10px;
+}

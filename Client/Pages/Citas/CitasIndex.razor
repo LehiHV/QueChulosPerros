@@ -5,19 +5,36 @@
 @using Syncfusion.Blazor.Calendars
 @using QueChulosPerros.Shared.Model;
 @using Syncfusion.Blazor.Buttons
+@using System.ComponentModel.DataAnnotations
+
 @inject HttpClient http;
 
 <div class="container-fluid">
     <div class="col-md-12">
-        <SfSchedule TValue="Cita" @bind-SelectedDate="@CurrentDate">
+        <SfSchedule TValue="Cita" @bind-SelectedDate="@CurrentDate" @ref="scheduleObj" ShowQuickInfo="false">
+            <ScheduleEvents TValue="Cita" OnPopupClose="OnPopupClose"></ScheduleEvents>
             <ScheduleTemplates>
+                    <EditorHeaderTemplate>
+                        @{
+                            var subject = (context as Cita)?.Subject;
+                        }
+                        @if (string.IsNullOrEmpty(subject))
+                        {
+                            <div>Agendar nueva cita</div>
+                        }
+                        else
+                        {
+                            <div>@subject</div>
+                        }
+                    </EditorHeaderTemplate>
                 <EditorTemplate>
                      <table class="custom-event-editor" width="100%" cellpadding="5">
                         <tbody>
                             <tr>
                                 <td class="e-textlabel">Razón</td>
                                 <td colspan="4">
-                                    <SfTextBox @bind-Value="@((context as Cita).Subject)"></SfTextBox>
+                                    <SfTextBox @bind-Value="((context as Cita).Subject)"></SfTextBox>
+                                    <ValidationMessage For="@(()=>nuevaCita.Subject)" />
                                 </td>
                             </tr>
                             <tr>
@@ -26,18 +43,21 @@
                                     <SfDropDownList ID="ClientId" DataSource="@clientes" Placeholder="Escoge el cliente" @bind-Value="@((context as Cita).ClientId)">
                                         <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
                                     </SfDropDownList>
+                                    <ValidationMessage For="@(()=>nuevaCita.ClientId)" />
                                 </td>
                             </tr>
                             <tr>
                                 <td class="e-textlabel">Desde</td>
                                 <td colspan="4">
                                     <SfDateTimePicker @bind-Value="@((context as Cita).StartTime)"></SfDateTimePicker>
+                                    <ValidationMessage For="@(()=>nuevaCita.StartTime)" />
                                 </td>
                             </tr>
                             <tr>
                                 <td class="e-textlabel">Hasta</td>
                                 <td colspan="4">
                                     <SfDateTimePicker @bind-Value="@((context as Cita).EndTime)"></SfDateTimePicker>
+                                    <ValidationMessage For="@(()=>nuevaCita.EndTime)" />
                                 </td>
                             </tr>
                             <tr>
@@ -46,31 +66,35 @@
                                             <SfDropDownList ID="PetId" DataSource="@(mascotas.Where(m => m.ClientId == ((context as Cita).ClientId)).ToList())" Placeholder="Escoge la mascota" @bind-Value="@((context as Cita).PetId)">
                                         <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
                                     </SfDropDownList>
+                                    <ValidationMessage For="@(()=>nuevaCita.PetId)" />
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table>                
+                    @{
+                        nuevaCita = (context as Cita);
+                    }
+                    
+                </EditorTemplate>
+                <EditorFooterTemplate>
                     <div id="event-footer">
-                        <div id="right-button">
-                            <SfButton OnClick="HandleValidSubmit1">Guardar</SfButton>
-                            @* <SfButton OnClick="Cancelar">Cancelar</SfButton> *@
+                        <div id="verify">
+                            <SfCheckBox @bind-Checked="@isChecked" @onchange="@(() => isSaveButtonDisabled = !isChecked)">
+                                <label htmlFor="check-box" id="text">Verificado</label>
+                            </SfCheckBox>
+                        </div><div id="right-button">
+                            <SfButton IsPrimary="true" Disabled="@isSaveButtonDisabled" OnClick="@(() => FooterButtonClick(true))">Guardar</SfButton>
+                            <SfButton IsPrimary="true" OnClick="@(() => FooterButtonClick(false))">Cancelar</SfButton>
                         </div>
                     </div>
-                    @{
-                        async Task HandleValidSubmit1()
-                        {
-                            nuevaCita=(context as Cita);
-                            await http!.PostAsJsonAsync("/api/citas", nuevaCita);
-                            nuevaCita = new Cita();
-                        }
-                    }
-                </EditorTemplate>
+                    
+                </EditorFooterTemplate>
             </ScheduleTemplates>
             <ScheduleEventSettings DataSource="@agendarCita"></ScheduleEventSettings>
             <ScheduleViews>
-                <ScheduleView Option="View.Day" StartHour="8:00" EndHour="19:00"></ScheduleView>
+                <ScheduleView Option="View.Day" StartHour="8:00" EndHour="19:00">Día</ScheduleView>
                 <ScheduleView Option="View.Week" StartHour="8:00" EndHour="19:00"></ScheduleView>
-                <ScheduleView Option="View.WorkWeek" StartHour="8:00" EndHour="19:00"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek" WorkDays="@WorkingDays" StartHour="8:00" EndHour="19:00"></ScheduleView>
                 <ScheduleView Option="View.Month" StartHour="8:00" EndHour="19:00"></ScheduleView>
                 <ScheduleView Option="View.Agenda" StartHour="8:00" EndHour="19:00"></ScheduleView>
             </ScheduleViews>
@@ -85,6 +109,12 @@
     private List<Cliente>? clientes;
     private Cita nuevaCita = new Cita();
 
+    public int[] WorkingDays { get; set; } = { 1, 2, 3, 4, 5, 6 };
+    private bool isSaveClick = false;
+    private bool isChecked = false;
+    private bool isSaveButtonDisabled = true;
+    SfSchedule<Cita> scheduleObj;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -92,16 +122,36 @@
         clientes = await http.GetFromJsonAsync<List<Cliente>>("api/Clientes");
         mascotas = await http.GetFromJsonAsync<List<Mascota>>("api/Mascotas");
     }
-    private async Task HandleValidSubmit()
+    
+
+    public async Task OnPopupClose(PopupCloseEventArgs<Cita> args)
+    {
+        if (args.Type == PopupType.Editor && args.Data != null && isSaveClick)
+        {
+            if (args.Data.Id != 0)
+            {
+                await scheduleObj.SaveEventAsync(args.Data);
+            }
+            else
+            {
+                args.Data.Id = await scheduleObj.GetMaxEventIdAsync<int>();
+                await scheduleObj.AddEventAsync(args.Data);
+                // nuevaCita = (args.Data as Cita);
+                await HandleValidSubmit();
+            }
+
+        }
+    }
+    private void FooterButtonClick(bool isSave)
+    {
+        isSaveClick = isSave;
+        scheduleObj.CloseEditor();
+    }
+ 
+    async Task HandleValidSubmit()
     {
         await http!.PostAsJsonAsync("/api/citas", nuevaCita);
         nuevaCita = new Cita();
     }
-
-    private async Task Cancelar()
-    {
-        nuevaCita = new Cita();
-    }
- 
 }
 
