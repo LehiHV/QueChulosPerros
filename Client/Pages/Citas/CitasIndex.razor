@@ -1,17 +1,18 @@
 ﻿@page "/citas"
-@using Syncfusion.Blazor.Schedule
-@using Syncfusion.Blazor.DropDowns
-@using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.Calendars
 @using QueChulosPerros.Shared.Model;
 @using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
 @using System.ComponentModel.DataAnnotations
 
 @inject HttpClient http;
 
 <div class="container-fluid">
     <div class="col-md-12">
-        <SfSchedule TValue="Cita" @bind-SelectedDate="@CurrentDate" @ref="scheduleObj" ShowQuickInfo="false">
+        <SfSchedule TValue="Cita" @bind-SelectedDate="@CurrentDate" EnableAutoRowHeight="true"
+                    EnableAdaptiveUI="true" @ref="scheduleObj" ShowQuickInfo="false">
             <ScheduleEvents TValue="Cita" OnPopupClose="OnPopupClose"></ScheduleEvents>
             <ScheduleTemplates>
                     <EditorHeaderTemplate>
@@ -35,7 +36,7 @@
                                 <td class="e-textlabel">Razón</td>
                                 <td colspan="4">
                                     <SfTextBox @bind-Value="((context as Cita).Subject)"></SfTextBox>
-                                    <ValidationMessage For="@(()=>nuevaCita.Subject)" />
+                                    <ValidationMessage For="@(()=>(context as Cita).Subject)" />
                                 </td>
                             </tr>
                             <tr>
@@ -44,30 +45,30 @@
                                     <SfDropDownList ID="ClientId" DataSource="@clientes" Placeholder="Escoge el cliente" @bind-Value="@((context as Cita).ClientId)">
                                         <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
                                     </SfDropDownList>
-                                    <ValidationMessage For="@(()=>nuevaCita.ClientId)" />
+                                    <ValidationMessage For="@(()=>(context as Cita).ClientId)" />
                                 </td>
                             </tr>
                             <tr>
                                 <td class="e-textlabel">Desde</td>
                                 <td colspan="4">
                                     <SfDateTimePicker @bind-Value="@((context as Cita).StartTime)"></SfDateTimePicker>
-                                    <ValidationMessage For="@(()=>nuevaCita.StartTime)" />
+                                    <ValidationMessage For="@(()=>(context as Cita).StartTime)" />
                                 </td>
                             </tr>
                             <tr>
                                 <td class="e-textlabel">Hasta</td>
                                 <td colspan="4">
                                     <SfDateTimePicker @bind-Value="@((context as Cita).EndTime)"></SfDateTimePicker>
-                                    <ValidationMessage For="@(()=>nuevaCita.EndTime)" />
+                                    <ValidationMessage For="@(()=>(context as Cita).EndTime)" />
                                 </td>
                             </tr>
                             <tr>
                                 <td class="e-textlabel">Mascota</td>
                                 <td colspan="4">
-                                            <SfDropDownList ID="PetId" DataSource="@(mascotas.Where(m => m.ClientId == ((context as Cita).ClientId)).ToList())" Placeholder="Escoge la mascota" @bind-Value="@((context as Cita).PetId)">
+                                    <SfDropDownList ID="PetId" DataSource="@(mascotas.Where(m => m.ClientId == ((context as Cita).ClientId)).ToList())" Placeholder="Escoge la mascota" @bind-Value="@((context as Cita).PetId)">
                                         <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
                                     </SfDropDownList>
-                                    <ValidationMessage For="@(()=>nuevaCita.PetId)" />
+                                    <ValidationMessage For="@(()=>(context as Cita).PetId)" />
                                 </td>
                             </tr>
                         </tbody>
@@ -91,7 +92,13 @@
                     
                 </EditorFooterTemplate>
             </ScheduleTemplates>
-            <ScheduleEventSettings DataSource="@agendarCita"></ScheduleEventSettings>
+            <ScheduleEventSettings DataSource="@agendarCita">
+                <Template>
+                    <div>Razón: @((context as Cita).Subject)</div>
+                    <div>Mascota:  @((context as Cita).Pet.Name)</div>
+                    <div>Cliente: @((context as Cita).Client.Name)</div>
+                </Template>
+            </ScheduleEventSettings>                
             <ScheduleViews>
                 <ScheduleView Option="View.Day" StartHour="8:00" EndHour="19:00">Día</ScheduleView>
                 <ScheduleView Option="View.Week" StartHour="8:00" EndHour="19:00"></ScheduleView>
