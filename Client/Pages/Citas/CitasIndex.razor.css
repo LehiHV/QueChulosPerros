@@ -38,8 +38,14 @@
 #right-button {
     padding: 0 10px;
 }
-.e-schedule .e-vertical-view .e-all-day-appointment-wrapper .e-appointment.custom-class,
-.e-schedule .e-vertical-view .e-day-wrapper .e-appointment.custom-class,
-.e-schedule .e-month-view .e-appointment.custom-class {
+.e-schedule .e-vertical-view .e-all-day-appointment-wrapper .e-appointment.progress,
+.e-schedule .e-vertical-view .e-day-wrapper .e-appointment.progress,
+.e-schedule .e-month-view .e-appointment.progress {
     background: #32CD32;
+}
+
+.e-schedule .e-vertical-view .e-all-day-appointment-wrapper .e-appointment.delayed,
+.e-schedule .e-vertical-view .e-day-wrapper .e-appointment.delayed,
+.e-schedule .e-month-view .e-appointment.delayed {
+    background: #CD5C5C;
 }

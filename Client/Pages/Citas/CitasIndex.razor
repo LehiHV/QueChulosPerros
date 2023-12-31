@@ -94,9 +94,9 @@
             </ScheduleTemplates>
             <ScheduleEventSettings DataSource="@agendarCita">
                 <Template>
-                    <div>Razón: @((context as Cita).Subject)</div>
-                    <div>Mascota:  @((context as Cita).Pet.Name)</div>
-                    <div>Cliente: @((context as Cita).Client.Name)</div>
+                    <div>Razón: @((context as Cita).Subject)</div><br />
+                    <div>Mascota:  @((context as Cita).Pet.Name)</div><br />
+                    <div>Cliente: @((context as Cita).Client.Name)</div><br />
                 </Template>
             </ScheduleEventSettings>                
             <ScheduleViews>
@@ -144,7 +144,6 @@
             {
                 args.Data.Id = await scheduleObj.GetMaxEventIdAsync<int>();
                 await scheduleObj.AddEventAsync(args.Data);
-                // nuevaCita = (args.Data as Cita);
                 await HandleValidSubmit();
             }
 
