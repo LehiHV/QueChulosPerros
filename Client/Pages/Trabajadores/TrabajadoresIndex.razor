@@ -3,13 +3,13 @@
 @inject HttpClient http
 @inject NavigationManager navegar
 
-<div class="container-fluid">
+<div class="container-fluid card">
     <div class="row">
         <div class="col-md-12 d-flex flex-column align-items-center justify-content-center h-100">
             <div class="container-fluid">
-                <button class="btn btn-success mt-3 mb-3 w-100" @onclick="AgregarTrabajador">Agregar Trabajador</button>
+                <button class="btn btn-success mt-3 mb-3 w-100 login enter" @onclick="AgregarTrabajador">Agregar Trabajador</button>
             </div>
-            <div>
+            <div class="card">
                 @if (Trabajadores == null)
                 {
                     <h3 class="text-primary">Cargando...</h3>
@@ -24,26 +24,26 @@
                         <table class="table table-bordered table-hover">
                             <thead class="bg-primary text-white">
                                 <tr class="w-100">
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Telefono</th>
-                                    <th>Genero</th>
-                                    <th>Correo</th>
-                                    <th>Actualizar</th>
-                                    <th>Eliminar</th>
+                                    <th class="login">Id</th>
+                                    <th class="login">Nombre</th>
+                                    <th class="login">Telefono</th>
+                                    <th class="login">Genero</th>
+                                    <th class="login">Correo</th>
+                                    <th class="login">Actualizar</th>
+                                    <th class="login">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var t in Trabajadores)
                                 {
                                     <tr>
-                                        <td>@t.Id</td>
-                                        <td>@t.Name</td>
-                                        <td>@t.Phone</td>
-                                        <td>@t.Gender</td>
-                                        <td>@t.Email</td>
-                                        <td><button class="btn btn-outline-success" @onclick="(()=>Editar(Convert.ToInt32(t.Id)))"><span class="oi oi-list"> Actualizar Trabajador</span></button></td>
-                                        <td><button class="btn btn-outline-danger" @onclick="(()=>Eliminar(t))"><span class="oi oi-trash"> Eliminar Trabajador</span></button></td>
+                                        <td class="login">@t.Id</td>
+                                        <td class="login">@t.Name</td>
+                                        <td class="login">@t.Phone</td>
+                                        <td class="login">@t.Gender</td>
+                                        <td class="login">@t.Email</td>
+                                        <td><button class="btn btn-outline-success login enter" @onclick="(()=>Editar(Convert.ToInt32(t.Id)))"><span class="oi oi-list"/><br />Actualizar</button></td>
+                                        <td><button class="btn btn-outline-danger login enter" @onclick="(()=>Eliminar(t))"><span class="oi oi-trash"/><br />Eliminar</button></td>
                                     </tr>
                                 }
                             </tbody>
@@ -51,10 +51,10 @@
                     </div>
                 }
             </div>
-
         </div>
     </div>
 </div>
+
 
 @code {
     private List<Trabajador> Trabajadores;
