@@ -2,6 +2,10 @@
 @using QueChulosPerros.Shared.Model
 @inject HttpClient http
 @inject NavigationManager navegar
+@using System.Net.Http.Json
+@using System.Linq
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
 
 <div class="container-fluid">
     <div class="row">
@@ -42,7 +46,39 @@
                                     <tr>
                                         <td>@c.Id</td>
                                         <td>
-                                            <button class="btn btn-link" @onclick="(() => MostrarMascotas(c.Id))">@c.Name</button>
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#mascotasCollapse_@c.Id" @onclick="(() => MostrarMascotas(c.Id))">
+                                                @c.Name
+                                            </button>
+                                            <div id="mascotasCollapse_@c.Id" class="collapse">
+                                                @if (MascotasCliente != null && MascotasCliente.Any(mc => mc.ClientId == c.Id))
+                                                {
+                                                    <table class="table table-bordered table-hover">
+                                                        <thead class="bg-info text-white">
+                                                            <tr>
+                                                                <th>Id</th>
+                                                                <th>Nombre</th>
+                                                                <th>Teléfono</th>
+                                                                <!-- Agrega más columnas según tus necesidades -->
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var mascota in MascotasCliente.Where(mc => mc.ClientId == c.Id))
+                                                            {
+                                                                <tr>
+                                                                    <td>@mascota.Id</td>
+                                                                    <td>@mascota.Name</td>
+                                                                    <td>@mascota.Phone</td>
+                                                                    <!-- Agrega más celdas según tus necesidades -->
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                                else
+                                                {
+                                                    <p>No hay mascotas asociadas.</p>
+                                                }
+                                            </div>
                                         </td>
                                         <td>@c.Phone</td>
                                         <td>@c.Gender</td>
@@ -52,34 +88,6 @@
                                         <td>@c.Branch</td>
                                         <td><button class="btn btn-outline-success" @onclick="(() => Editar(c.Id))"><span class="oi oi-list"> Actualizar Trabajador</span></button></td>
                                         <td><button class="btn btn-outline-danger" @onclick="(() => Eliminar(c))"><span class="oi oi-trash"> Eliminar Trabajador</span></button></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-
-                @if (MascotasCliente != null)
-                {
-                    <div>
-                        <h4>Mascotas del Cliente Seleccionado:</h4>
-                        <table class="table table-bordered table-hover">
-                            <thead class="bg-info text-white">
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Teléfono</th>
-                                    <!-- Agrega más columnas según tus necesidades -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var mascota in MascotasCliente)
-                                {
-                                    <tr>
-                                        <td>@mascota.Id</td>
-                                        <td>@mascota.Name</td>
-                                        <td>@mascota.Phone</td>
-                                        <!-- Agrega más celdas según tus necesidades -->
                                     </tr>
                                 }
                             </tbody>

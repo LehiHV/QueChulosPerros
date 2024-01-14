@@ -1,63 +1,66 @@
 ﻿@page "/trabajador/editar/{Id:int}";
 @using QueChulosPerros.Shared.Model;
 @inject HttpClient http
-@layout FormLayout
 @inject NavigationManager navegar
 
-<h3>Editar Trabajador</h3>
 
-<EditForm Model="traba" OnValidSubmit="Editar">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="txtNombre" class="form-label">Nombre</label>
-        <InputText id="txtNombre" class="form-control" @bind-Value="traba.Name" />
-    </div>
-    <div class="mb-3">
-        <label for="txtTelefono" class="form-label">Telefono</label>
-        <InputText id="txtTelefono" class="form-control" @bind-Value="traba.Phone" />
-        <ValidationMessage For="@(() => traba.Phone)" />
-    </div>
-    <div class="mb-3">
-        <label for="selectGenero" class="form-label">Genero</label>
-        <InputSelect id="selectGenero" class="form-control" @bind-Value="traba.Gender">
-            <option value="">-- Seleccione --</option>
-            @foreach (var gender in Enum.GetValues<Gender>())
-            {
-                <option value="@gender">@gender</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="@(() => traba.Gender)" />
-    </div>
-    <div class="mb-3">
-        <label for="txtCorreo" class="form-label">Correo</label>
-        <InputText id="txtCorreo" class="form-control" @bind-Value="traba.Email" />
-        <ValidationMessage For="@(() => traba.Email)" />
-    </div>
-    <div class="mb-3">
-        <label for="txtPassword" class="form-label">Contraseña</label>
-        <InputText id="txtPassword" class="form-control" @bind-Value="traba.Password" />
-        <ValidationMessage For="@(() => traba.Password)" />
-    </div>
-    <div class="mb-3">
-        <label for="checkAdmin" class="form-label">Administrador</label>
-        <InputCheckbox id="checkAdmin" class="form-check-input" @bind-Value="traba.Admin" />
-        <ValidationMessage For="@(() => traba.Admin)" />
-    </div>
-    <div class="mb-3">
-        <label for="selectBranch" class="form-label">Sucursal</label>
-        <InputSelect id="selectBranch" class="form-control" @bind-Value="traba.Branch">
-            <option value="">-- Seleccione --</option>
-            @foreach (var branch in Enum.GetValues<Branch>())
-            {
-                <option value="@branch">@branch</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="@(() => traba.Branch)" />
-    </div>
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <button type="sumbit" class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
-</EditForm>
-
+<div class="container">
+    <center>
+        <div class="card">
+            <h3 class="login">Editar Trabajador</h3>
+            <EditForm Model="traba" OnValidSubmit="Editar">
+                <DataAnnotationsValidator />
+                <div class="inputBox">
+                    <input @bind="traba.Name" type="text" required>
+                    <span class="user">Nombre de usuario</span>
+                    <ValidationMessage For="@(() => traba.Name)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="traba.Phone" type="text" required>
+                    <span class="user">Telefono</span>
+                    <ValidationMessage For="@(() => traba.Phone)" />
+                </div>
+                <div class="inputBox">
+                    <select @bind="traba.Gender" required class="styledSelect">
+                        <option value=""></option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <span>Genero</span>
+                    <ValidationMessage For="@(() => traba.Gender)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="traba.Email" type="email" required>
+                    <span class="user">Correo Electronico</span>
+                    <ValidationMessage For="@(() => traba.Email)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="traba.Password" type="password" required>
+                    <span class="user">Contraseña</span>
+                    <ValidationMessage For="@(() => traba.Password)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="traba.Admin" type="checkbox" required>
+                    <span class="user">Administrador</span>
+                    <ValidationMessage For="@(() => traba.Admin)" />
+                </div>
+                <div class="inputBox">
+                    <select @bind="traba.Branch" required class="styledSelect">
+                        <option value=""></option>
+                        <option value="Villa_de_Álvarez">Villa de Álvarez</option>
+                        <option value="Tecomán">Tecoman</option>
+                        <option value="Ambos">Ambos</option>
+                    </select>
+                    <span>Dependencia</span>
+                    <ValidationMessage For="@(() => traba.Branch)" />
+                </div>
+                <button type="submit" class="success">Guardar</button>
+                <button type="submit" class="cancel" @onclick="Cancelar">Cancelar</button>
+            </EditForm>
+        </div>
+    </center>
+</div>
 
 @code {
     [Parameter]
