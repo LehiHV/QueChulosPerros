@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QueChulosPerros.Server.Authentication;
 using QueChulosPerros.Server.Data;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,5 +1,4 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using QueChulosPerros.Server.Authentication;
 using QueChulosPerros.Shared.Model;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

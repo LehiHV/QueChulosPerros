@@ -1,4 +1,9 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('bootstrap-icons/font/css/bootstrap-icons.css');
+:root {
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-padding-x: 0.5rem;
+}
+
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

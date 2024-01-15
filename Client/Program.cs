@@ -2,9 +2,9 @@ using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using QueChulosPerros.Client.Authentication;
 using QueChulosPerros.Client;
-using Syncfusion.Blazor; 
+using QueChulosPerros.Client.Authentication;
+using Syncfusion.Blazor;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF1cWmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEZiW31YcXJQQWNaU0N1Vw==");

@@ -1,4 +1,4 @@
-﻿    using QueChulosPerros.Server.Authentication;
+﻿using QueChulosPerros.Server.Authentication;
 using QueChulosPerros.Shared.Model;
 
 public class UserAccountService

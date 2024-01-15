@@ -57,10 +57,11 @@
                                             <td colspan="10">
                                                 <div class="container">
                                                 <div class="row">
-                                                <div class="col-1">
-                                                    <button class="btn btn-primary" @onclick="AgregarMascota"><span class="oi oi-plus"/></button>
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-primary" @onclick="AgregarMascota"><i class="bi bi-plus"></i></button>
+
                                                 </div>
-                                                <div class="col-md-4 offset-md-5">
+                                                <div class="col-md-4 offset-md-3">
                                                     <table class="table table-hover table-dark">
                                                         <thead class="bg-info text-white">
                                                             <tr>
@@ -99,7 +100,7 @@
                                                             }
                                                         </tbody>
                                                     </table>
-                                                </div>
+                                                        </div>
                                                 </div>
                                                 </div>
                                             </td>
@@ -114,12 +115,34 @@
         </div>
     </div>
 </div>
+@if (showPet)
+{
+    <div class="modal" tabindex="-1" style="display:block">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+}
 
 @code {
     private List<Cliente> Clientes;
     private List<Mascota> MascotasCliente;
     private Dictionary<int, bool> ClientesConMascotasVisibles = new Dictionary<int, bool>();
-
+    private bool showPet = false;
     protected override async Task OnInitializedAsync()
     {
         Clientes = await http.GetFromJsonAsync<List<Cliente>>("api/Clientes");
@@ -154,7 +177,7 @@
     }
     private void AgregarMascota()
     {
-        // Implementa la lógica para agregar un cliente si es necesario
+        showPet = true;
     }
 
     private async Task ToggleMascotas(int clienteId)
