@@ -42,8 +42,8 @@
                                         <td class="login">@t.Phone</td>
                                         <td class="login">@t.Gender</td>
                                         <td class="login">@t.Email</td>
-                                        <td><button class="btn btn-outline-success login enter" @onclick="(()=>Editar(Convert.ToInt32(t.Id)))"><span class="oi oi-list"/><br />Actualizar</button></td>
-                                        <td><button class="btn btn-outline-danger login enter" @onclick="(()=>Eliminar(t))"><span class="oi oi-trash"/><br />Eliminar</button></td>
+                                        <td><button class="btn btn-outline-primary" @onclick="(()=>Editar(Convert.ToInt32(t.Id)))"><span class="oi oi-list"/><br />Actualizar</button></td>
+                                        <td><button class="btn btn-outline-danger" @onclick="(()=>Eliminar(t))"><span class="oi oi-trash"/><br />Eliminar</button></td>
                                     </tr>
                                 }
                             </tbody>

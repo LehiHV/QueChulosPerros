@@ -111,9 +111,10 @@
 }
 
     .success:hover {
-        background-color: lightgreen;
+        background-color: lightblue;
         color: black;
     }
+
 .cancel {
     height: 45px;
     color: white;
