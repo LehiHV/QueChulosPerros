@@ -37,6 +37,9 @@
         transition: 0.1s;
         border-bottom-left-radius: 8px;
     }
+    .inputBox checkbox{
+        font-family : sans-serif;
+    }
 
 .input span {
     margin-top: 5px;
