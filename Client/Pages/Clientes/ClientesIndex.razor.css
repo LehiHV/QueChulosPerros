@@ -75,7 +75,7 @@
     border-radius: 8px;
 }
 
-.enter, .button {
+.enter, button {
     height: 50px;
     width: 120px;
     border-radius: 5px;
@@ -94,7 +94,6 @@
         background-color: rgb(0, 0, 0);
         color: white;
     }
-
 th, td {
     width: 250px;
     text-align: center;

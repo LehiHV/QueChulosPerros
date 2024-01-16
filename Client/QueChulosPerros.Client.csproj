@@ -173,6 +173,10 @@
     <Content Update="Pages\Trabajadores\TrabajadoresNew.razor">
       <CustomToolNamespace></CustomToolNamespace>
     </Content>
+    <Content Update="wwwroot\css\bootstrap-icons\font\css\bootstrap-icons.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12 d-flex flex-column align-items-center justify-content-center h-100">
             <div class="container-fluid">
-                <button class="button btn-success mt-3 mb-3 w-100 login enter" @onclick="AgregarCliente">Agregar Cliente</button>
+                <button class="button btn-success mt-3 mb-3 w-100 login enter" data-toggle="modal" data-target="#exampleModal" @onclick="AgregarCliente">Agregar Cliente</button>
             </div>
             <div class="card">
                 @if (Clientes == null)
@@ -48,8 +48,8 @@
                                         <td class="login">@c.Branch</td>
                                         <td class="login">@c.Street</td>
                                         <td class="login">@c.Neighborhood</td>
-                                        <td><button class="button btn-outline-primary" @onclick="(() => Editar(c.Id))"><span class="oi oi-list"/><br />Actualizar </button></td>
-                                        <td><button class="button btn-outline-danger" @onclick="(() => Eliminar(c))"><span class="oi oi-trash"/><br />Eliminar</button></td>
+                                        <td><button class="btn btn-outline-primary" @onclick="(() => Editar(c.Id))"><span class="oi oi-list"/><br />Actualizar </button></td>
+                                        <td><button class="btn btn-outline-danger" @onclick="(() => Eliminar(c))"><span class="oi oi-trash"/><br />Eliminar</button></td>
                                     </tr>
                                     @if (MascotasCliente != null && MascotasCliente.Any(mc => mc.ClientId == c.Id) && ClientesConMascotasVisibles.ContainsKey(c.Id) && ClientesConMascotasVisibles[c.Id])
                                     {
@@ -58,9 +58,58 @@
                                                 <div class="container">
                                                 <div class="row">
                                                 <div class="col-md-1">
-                                                    <button class="btn btn-primary" @onclick="AgregarMascota"><i class="bi bi-plus"></i></button>
+                                                    <a class="btn btn-primary" @onclick="() => AgregarMascotaForm()" data-toggle="modal" data-target="#exampleModalCenter"><span class="oi oi-plus"></span></a>
+                                                    @if (showPet)
+                                                            {
+                                                                <div class="modal" tabindex="-1" role="dialog" style="display:block">
+                                                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                    <div class="modal-content shadow-lg p-3 mb-5">
+                                                                      <div class="modal-header">
+                                                                        <h3 class="modal-title">Registro de Mascota </h3>
+                                                                        <a  class="btn btn-outline-danger" @onclick="() => AgregarMascotaFormClose()" data-dismiss="modal" aria-label="Close">
+                                                                          <span class="oi oi-circle-x"></span>
+                                                                        </a>
+                                                                      </div>
+                                                                      <div class="modal-body">
+                                                                        <div class="container">
+                                                                            <center>
+                                                                                <div class="card">
+                                                                                    <h3 class="login">Nueva Mascota</h3>
 
-                                                </div>
+                                                                                    <EditForm Model="pet" OnValidSubmit="AgregarMascotaFormSuccess">
+                                                                                        <DataAnnotationsValidator />
+                                                                                        <div class="inputBox">
+                                                                                            <input @bind="pet.Name" type="text" required>
+                                                                                            <span class="user">Nombre de la Mascota</span>
+                                                                                            <ValidationMessage For="@(() => pet.Name)" />
+                                                                                        </div>
+                                                                                        <div class="inputBox">
+                                                                                            <input @bind="pet.Phone = c.Phone" type="text" required>
+                                                                                            <span class="user">Telefono</span>
+                                                                                            <ValidationMessage For="@(() => pet.Phone)" />
+                                                                                        </div>
+                                                                                        <div class="inputBox">
+                                                                                            <select required class="styledSelect">
+                                                                                                <option>Vivo</option>
+                                                                                                <option>Fallecido</option>
+                                                                                            </select>
+                                                                                            <span>Estado</span>
+                                                                                            <ValidationMessage For="@(() => pet.Alive)" />
+                                                                                        </div>
+                                                                                        <button type="submit" class="success">Guardar</button>
+                                                                                    </EditForm>
+                                                                                </div>
+                                                                        </center>
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="modal-footer">
+                                                                        <a class="btn btn-danger" data-dismiss="modal" @onclick="() => AgregarMascotaFormClose()">Cerrar</a>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                            }
+                                                        </div>
                                                 <div class="col-md-4 offset-md-3">
                                                     <table class="table table-hover table-dark">
                                                         <thead class="bg-info text-white">
@@ -94,8 +143,8 @@
                                                                             Fallecido
                                                                         </td>
                                                                     }
-                                                                    <td><button class="button btn-outline-primary" @onclick="(() => EditarM(mascota.Id))"><span class="oi oi-list"/><br />Actualizar </button></td>
-                                                                    <td><button class="button btn-outline-danger" @onclick="(() => EliminarM(mascota))"><span class="oi oi-trash"/><br />Eliminar</button></td>
+                                                                    <td><button class="btn btn-outline-primary" @onclick="(() => EditarM(mascota.Id))"><span class="oi oi-list"/><br />Actualizar </button></td>
+                                                                    <td><button class="btn btn-outline-danger" @onclick="(() => EliminarM(mascota))"><span class="oi oi-trash"/><br />Eliminar</button></td>
                                                                 </tr>
                                                             }
                                                         </tbody>
@@ -115,34 +164,14 @@
         </div>
     </div>
 </div>
-@if (showPet)
-{
-    <div class="modal" tabindex="-1" style="display:block">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-}
 
 @code {
     private List<Cliente> Clientes;
     private List<Mascota> MascotasCliente;
+    private Mascota pet = new Mascota();
     private Dictionary<int, bool> ClientesConMascotasVisibles = new Dictionary<int, bool>();
     private bool showPet = false;
+    private bool opcion = false;
     protected override async Task OnInitializedAsync()
     {
         Clientes = await http.GetFromJsonAsync<List<Cliente>>("api/Clientes");
@@ -175,9 +204,17 @@
     {
         // Implementa la lógica para agregar un cliente si es necesario
     }
-    private void AgregarMascota()
+    private void AgregarMascotaForm()
     {
         showPet = true;
+    }
+    private async void AgregarMascotaFormSuccess()
+    {
+        
+    }
+    private void AgregarMascotaFormClose()
+    {
+        showPet = false;
     }
 
     private async Task ToggleMascotas(int clienteId)
