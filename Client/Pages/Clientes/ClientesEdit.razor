@@ -1,0 +1,84 @@
+﻿@page "/cliente/editar/{Id:int}";
+@using QueChulosPerros.Shared.Model
+@inject HttpClient http
+@inject NavigationManager navegar
+
+<div class="container">
+    <center>
+        <div class="card">
+            <h3 class="login">Nuevo Cliente</h3>
+
+            <EditForm Model="client" OnValidSubmit="Editar">
+                <DataAnnotationsValidator />
+                <div class="inputBox">
+                    <input @bind="client.Name" type="text" required>
+                    <span class="user">Nombre de usuario</span>
+                    <ValidationMessage For="@(() => client.Name)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="client.Phone" type="text" required>
+                    <span class="user">Telefono</span>
+                    <ValidationMessage For="@(() => client.Phone)" />
+                </div>
+                <div class="inputBox">
+                    <select @bind="client.Gender" required class="styledSelect">
+                        <option value=""></option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <span>Genero</span>
+                    <ValidationMessage For="@(() => client.Gender)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="client.Email" type="email" required>
+                    <span class="user">Correo Electronico</span>
+                    <ValidationMessage For="@(() => client.Email)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="client.Neighborhood" type="text" required>
+                    <span class="user">Colonia</span>
+                    <ValidationMessage For="@(() => client.Neighborhood)" />
+                </div>
+                <div class="inputBox">
+                    <input @bind="client.Street" type="text" required>
+                    <span class="user">Calle</span>
+                    <ValidationMessage For="@(() => client.Street)" />
+                </div>
+                <div class="inputBox">
+                    <select @bind="client.Branch" required class="styledSelect">
+                        <option value=""></option>
+                        <option value="Villa_de_Álvarez">Villa de Álvarez</option>
+                        <option value="Tecomán">Tecoman</option>
+                        <option value="Ambos">Ambos</option>
+                    </select>
+                    <span>Dependencia</span>
+                    <ValidationMessage For="@(() => client.Branch)" />
+                </div>
+                <button type="submit" class="success">Guardar</button>
+                <button type="submit" class="cancel" @onclick="Cancelar">Cancelar</button>
+            </EditForm>
+        </div>
+    </center>
+</div>
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Cliente client = new Cliente();
+
+    protected override async Task OnInitializedAsync()
+    {
+        client = await http.GetFromJsonAsync<Cliente>($"api/Clientes/{Id}");
+    }
+
+    private async void Editar()
+    {
+        await http.PutAsJsonAsync($"api/Clientes/{Id}", client);
+        navegar.NavigateTo("/clientes");
+    }
+
+    private void Cancelar()
+    {
+        navegar.NavigateTo("/clientes");
+    }
+}
