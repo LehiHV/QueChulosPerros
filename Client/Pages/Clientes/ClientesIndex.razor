@@ -77,7 +77,7 @@
                                                                                                         <center>
                                                                                                             <div class="card">
                                                                                                                 <h3 class="login">Nueva Mascota</h3>
-                                                                                                                    <EditForm Model="pet" OnValidSubmit="()=>Guardar(c.Id)">
+                                                                                                                    <EditForm Model="pet" OnValidSubmit="()=>Guardar()">
                                                                                                                     <div class="inputBox">
                                                                                                                         <input @bind="pet.Name" type="text" required>
                                                                                                                         <span class="user">Nombre de la Mascota</span>
@@ -180,9 +180,11 @@
                                                                                                             Fallecido
                                                                                                         </td>
                                                                                                     }
-                                                                                                    <td><button class="btn btn-outline-primary" @onclick="(() => EditarM(mascota.Id))"><span class="oi oi-list"/><br />Actualizar </button></td>
+                                                                                                    <td><button class="btn btn-outline-primary" @onclick="(() => EditarMascotaForm(mascota.Id,mascota))"><span class="oi oi-list"/><br />Actualizar </button></td>
+                                                                                                    
                                                                                                     <td><button class="btn btn-outline-danger" @onclick="(() => EliminarM(mascota))"><span class="oi oi-trash"/><br />Eliminar</button></td>
                                                                                                 </tr>
+                                                                                                
                                                                                             }
                                                                                     </tbody>
                                                                                 </table>
@@ -203,78 +205,77 @@
         </div>
     </div>
 </div>
-
 @if (UpdatePet)
 {
     <div class="modal" tabindex="-1" role="dialog" style="display:block">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content shadow-lg p-3 mb-5 rounded">
+        <div class="modal-dialog modal-dialog-centered bg-transparent" role="document">
+            <div class="modal-content rounded">
                 <div class="modal-header">
-                    <h3 class="modal-title">Registro de Mascota </h3>
-                        <a  class="btn btn-outline-danger" @onclick="() => EditarMascotaFormClose()" data-dismiss="modal" aria-label="Close">
-                            <span class="oi oi-circle-x"></span>
-                        </a>
+                    <h3 class="modal-title">Editar de Mascota </h3>
+                    <a  class="btn btn-outline-danger" @onclick="() => EditarMascotaFormClose()" data-dismiss="modal" aria-label="Close">
+                        <span class="oi oi-circle-x"></span>
+                    </a>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <center>
                             <div class="card">
-                                <h3 class="login">Nueva Mascota</h3>
-                                <EditForm Model="petEdit" OnValidSubmit="()=>EditarM(pet.Id)">
+                                <h3 class="login">Editar Mascota</h3>
+                                <EditForm Model="petEdit" OnValidSubmit="()=>GuardarE()">
                                     <div class="inputBox">
-                                                                                                                        <input @bind="petEdit.Name" type="text" required>
-                                                                                                                        <span class="user">Nombre de la Mascota</span>
-                                                                                                                        <ValidationMessage For="@(() => petEdit.Name)" />
-                                                                                                                    </div>
-                                                                                                                    <div class="inputBox">
-                                                                                                                        <input @bind="petEdit.Phone" type="text" required>
-                                                                                                                        <span class="user">Telefono</span>
-                                                                                                                        <ValidationMessage For="@(() => petEdit.Phone)" />
-                                                                                                                    </div>
-                                                                                                                    <div class="inputBox">
-                                                                                                                         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                                                                                                            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" @bind="pet.Alive" @onclick="()=> CambiarTexto()">
-                                                                                                                            <label class="btn btn-outline-dark border border-dark btn-lg sans" for="btncheck1">@Vivo</label>
-                                                                                                                         </div>
-                                                                                                                        <ValidationMessage For="@(() => petEdit.Alive)" />
-                                                                                                                    </div>
-                                                                                                                    <div class="inputBox">
-                                                                                                                        <select @bind="petEdit.Gender" required class="styledSelect">
-                                                                                                                            <option value=""></option>
-                                                                                                                            <option value="Hembra">Hembra</option>
-                                                                                                                            <option value="Macho">Macho</option>
-                                                                                                                            <option value="NoEspecificado">No Especificado</option>
-                                                                                                                        </select>
-                                                                                                                        <span>Genero</span>
-                                                                                                                        <ValidationMessage For="@(() => petEdit.Gender)" />
-                                                                                                                    </div>
-                                                                                                                    <div class="inputBox">
-                                                                                                                        <input @bind="petEdit.Email" type="email" required>
-                                                                                                                        <span class="user">Email</span>
-                                                                                                                        <ValidationMessage For="@(() => petEdit.Email)" />
-                                                                                                                    </div>
-                                                                                                                    <div class="inputBox">
-                                                                                                                        <select @bind="petEdit.Specie" required class="styledSelect">
-                                                                                                                            <option value=""></option>
-                                                                                                                            <option value="Perro">Perro</option>
-                                                                                                                            <option value="Gato">Gato</option>
-                                                                                                                            <option value="Ave">Ave</option>
-                                                                                                                            <option value="Roedor">Roedor</option>
-                                                                                                                        </select>
-                                                                                                                        <span>Especie</span>
-                                                                                                                        <ValidationMessage For="@(() => petEdit.Specie)" />
-                                                                                                                    </div>
-                                                                                                                    <div class="inputBox">
-                                                                                                                        <input @bind="petEdit.Breed" type="text" required>
-                                                                                                                        <span class="user">Raza</span>
-                                                                                                                        <ValidationMessage For="@(() => petEdit.Breed)" />
-                                                                                                                    </div>
-                                                                                                                    <div class="inputBox">
-                                                                                                                        <input @bind="petEdit.Description" type="text" required>
-                                                                                                                        <span class="user">Descripcion</span>
-                                                                                                                        <ValidationMessage For="@(() => petEdit.Description)" />
-                                                                                                                    </div>
-                                                                                                                    <button type="submit" class="btn btn-outline-success">Guardar</button>
+                                        <input @bind="petEdit.Name" type="text" required>
+                                        <span class="user">Nombre de la Mascota</span>
+                                        <ValidationMessage For="@(() => petEdit.Name)" />
+                                    </div>
+                                    <div class="inputBox">
+                                        <input @bind="petEdit.Phone" type="text" required>
+                                        <span class="user">Telefono</span>
+                                        <ValidationMessage For="@(() => petEdit.Phone)" />
+                                    </div>
+                                    <div class="inputBox">
+                                         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" @bind="pet.Alive" @onclick="()=> CambiarTexto()">
+                                            <label class="btn btn-outline-dark border border-dark btn-lg sans" for="btncheck1">@Vivo</label>
+                                         </div>
+                                        <ValidationMessage For="@(() => petEdit.Alive)" />
+                                    </div>
+                                    <div class="inputBox">
+                                        <select @bind="petEdit.Gender" required class="styledSelect">
+                                            <option value=""></option>
+                                            <option value="Hembra">Hembra</option>
+                                            <option value="Macho">Macho</option>
+                                            <option value="NoEspecificado">No Especificado</option>
+                                        </select>
+                                        <span>Genero</span>
+                                        <ValidationMessage For="@(() => petEdit.Gender)" />
+                                    </div>
+                                    <div class="inputBox">
+                                        <input @bind="petEdit.Email" type="email" required>
+                                        <span class="user">Email</span>
+                                        <ValidationMessage For="@(() => petEdit.Email)" />
+                                    </div>
+                                    <div class="inputBox">
+                                        <select @bind="petEdit.Specie" required class="styledSelect">
+                                            <option value=""></option>
+                                            <option value="Perro">Perro</option>
+                                            <option value="Gato">Gato</option>
+                                            <option value="Ave">Ave</option>
+                                            <option value="Roedor">Roedor</option>
+                                        </select>
+                                        <span>Especie</span>
+                                        <ValidationMessage For="@(() => petEdit.Specie)" />
+                                    </div>
+                                    <div class="inputBox">
+                                        <input @bind="petEdit.Breed" type="text" required>
+                                        <span class="user">Raza</span>
+                                        <ValidationMessage For="@(() => petEdit.Breed)" />
+                                    </div>
+                                    <div class="inputBox">
+                                        <input @bind="petEdit.Description" type="text" required>
+                                        <span class="user">Descripcion</span>
+                                        <ValidationMessage For="@(() => petEdit.Description)" />
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-success">Guardar</button>
                                 </EditForm>
                             </div>
                         </center>
@@ -290,13 +291,16 @@
 
 
 
+
 @code {
     private List<Cliente> Clientes;
     private List<Mascota> MascotasCliente;
-    private Mascota pet,petEdit = new Mascota();
+    private Mascota pet = new Mascota();
+    private Mascota petEdit= new Mascota();
     private Dictionary<int, bool> ClientesConMascotasVisibles = new Dictionary<int, bool>();
-    private bool AddPet = false;
-    private bool UpdatePet = false;
+    bool AddPet = false;
+    int IdPet = 0;
+    bool UpdatePet = false;
     private string Vivo="Vivo";
 
 
@@ -352,18 +356,42 @@
         pet.ClientId = 0;
     }
 
-    private async Task Guardar(int id)
+    private async Task Guardar()
     {
-        pet.ClientId = id;
-        await http.PostAsJsonAsync("api/Mascotas", pet);
+        await http.PostAsJsonAsync("api/Mascotas",pet);
         AgregarMascotaFormClose();
     }
 
-    protected async Task EditarM(int Id)
+    private void EditarMascotaForm(int Id,Mascota pet)
     {
         UpdatePet = true;
-        petEdit = await http.GetFromJsonAsync<Mascota>($"api/Mascotas/{Id}");
-        await http.PutAsJsonAsync($"api/Mascotas/{Id}", petEdit);
+        petEdit.Id = pet.Id;
+        petEdit.ClientId = Id;
+        petEdit.Name = pet.Name;
+        petEdit.Phone = pet.Phone;
+        petEdit.Alive = pet.Alive;
+        petEdit.Gender = pet.Gender;
+        petEdit.Specie = pet.Specie;
+        petEdit.Email = pet.Email;
+        petEdit.Breed = pet.Breed;
+        petEdit.Description = pet.Description;
+
+
+
+    }
+
+    private async Task GuardarE()
+    {
+        await http.PutAsJsonAsync($"api/Mascotas/{petEdit.Id}", petEdit);
+        petEdit.ClientId = 0;
+        petEdit.Name = "";
+        petEdit.Phone = "";
+        petEdit.Alive = null;
+        petEdit.Gender = null;
+        petEdit.Specie = null;
+        petEdit.Email = "";
+        petEdit.Breed = "";
+        petEdit.Description = "";
         EditarMascotaFormClose();
     }
 
@@ -371,7 +399,6 @@
     {
         UpdatePet = false;
     }
-
     public async Task EliminarM(Mascota pet)
     {
         await http.DeleteAsync($"api/Mascotas/{pet.Id}");
