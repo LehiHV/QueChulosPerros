@@ -299,9 +299,8 @@
     private Mascota petEdit= new Mascota();
     private Dictionary<int, bool> ClientesConMascotasVisibles = new Dictionary<int, bool>();
     bool AddPet = false;
-    int IdPet = 0;
     bool UpdatePet = false;
-    private string Vivo="Vivo";
+    private string Vivo="Fallecido";
 
 
     protected override async Task OnInitializedAsync()
@@ -311,14 +310,10 @@
     }
 
     private void CambiarTexto() {
-        if (Vivo == "Fallecido")
-        {
-            Vivo = "Vivo";
-        }
-        else
-        {
+        if (Vivo == "Vivo")
             Vivo = "Fallecido";
-        }
+        else
+            Vivo = "Vivo";
     }
 
     private void AgregarCliente()
